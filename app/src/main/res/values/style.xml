@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="windowActionBar">false</item>
+    <item name="android:windowBackground">@color/whiteFFFFFF</item>
+    <item name="android:windowAnimationStyle">@null</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
+    <item name="android:editTextStyle">@style/CustomEditTextStyle</item>
+    <item name="android:buttonStyle">@style/CustomButtonStyle</item>
+    <item name="android:windowTranslucentStatus">true</item>
+    //disable multitouch
+    <item name="android:windowEnableSplitTouch">false</item>
+    <item name="android:splitMotionEvents">false</item>
+  </style>
+
+  <style name="Theme.AppCompat.Translucent" parent="AppTheme">
+    <item name="android:windowNoTitle">false</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:colorBackgroundCacheHint">@null</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowAnimationStyle">@android:style/Animation</item>
+  </style>
+
+  <style name="CustomTextViewStyle" parent="android:Widget.TextView">
+    <item name="android:includeFontPadding">false</item>
+    <item name="android:textColor">@color/gray54585A</item>
+  </style>
+
+  <style name="CustomEditTextStyle" parent="android:Widget.EditText">
+    <item name="android:includeFontPadding">false</item>
+    <item name="android:textColor">@color/gray54585A</item>
+  </style>
+
+  <style name="CustomButtonStyle" parent="android:Widget.Button">
+    <item name="android:includeFontPadding">false</item>
+    <item name="android:textColor">@color/gray54585A</item>
+  </style>
+
+  <style name="textAppearanceSuperLarge23" parent="@android:style/TextAppearance.Large">
+    <item name="android:textSize">@dimen/dp23_3</item>
+    <item name="android:textColor">@color/gray54585A</item>
+  </style>
+
+  <style name="textAppearanceSmall12" parent="@android:style/TextAppearance.Small">
+    <item name="android:textSize">@dimen/dp12</item>
+    <item name="android:textColor">@color/gray54585A</item>
+  </style>
+
+  <style name="textAppearanceMedium14" parent="@android:style/TextAppearance.Small">
+    <item name="android:textSize">@dimen/dp14_7</item>
+    <item name="android:textColor">@color/gray54585A</item>
+  </style>
+
+  <style name="textAppearanceLarge17" parent="@android:style/TextAppearance.Large">
+    <item name="android:textSize">@dimen/dp17_3</item>
+    <item name="android:textColor">@color/gray54585A</item>
+  </style>
+
+
+</resources>

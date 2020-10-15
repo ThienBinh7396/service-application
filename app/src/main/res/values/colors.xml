@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="purple_200">#FFBB86FC</color>
+  <color name="purple_500">#FF6200EE</color>
+  <color name="purple_700">#FF3700B3</color>
+  <color name="teal_200">#FF03DAC5</color>
+  <color name="teal_700">#FF018786</color>
+  <color name="black">#FF000000</color>
+  <color name="white">#FFFFFFFF</color>
+
+  <color name="colorPrimary">#00bce4</color>
+  <color name="colorPrimaryDark">#00bce4</color>
+  <color name="colorAccent">#00bce4</color>
+
+  <color name="whiteFFFFFF">#FFFFFF</color>
+  <color name="blue00BCE4">#00BCE4</color> //rgb 0 188 228
+  <color name="gray54585A">#54585A</color>  //rgb 84 88 90
+  <color name="grayAAAAAA">#74E6E1E1</color>
+  <color name="grayD6D5D5">#80D6D5D5</color>
+  <color name="grayEDEDED">#80EDEDED</color>
+  <color name="transparent">#00FFFFFF</color>
+  <color name="redE30012">#E30012</color>
+
+  <color name="grayE6E6E6">#E6E6E6</color>
+  <color name="grayB4B4B4">#B4B4B4</color>
+
+  <color name="blue015365">#015365</color>
+  <color name="black000000">#000000</color>
+
+  <color name="orangeE3C384">#E3C384</color> //RGB（227, 195, 132）
+  <color name="orange773504">#773504</color> //RGB（119, 53, 4）
+  <color name="grayBEBEBE">#BEBEBE</color> //RGB（190, 190, 190）
+  <color name="green8CAA4B">#8CAA4B</color> //RGB（140, 170, 75）
+  <color name="black3F3F3F">#3F3F3F</color> //RGB（63, 63, 63）
+  <color name="redFF1200">#FF1200</color> //RGB（255, 18, 0）
+  <color name="grayA2A2A2">#A2A2A2</color> //RGB（162 162 162）
+</resources>
