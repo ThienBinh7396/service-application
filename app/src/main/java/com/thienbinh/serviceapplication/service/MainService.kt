@@ -1,4 +1,4 @@
-package com.thienbinh.serviceapplication.service
+  package com.thienbinh.serviceapplication.service
 
 import android.app.Service
 import android.content.Intent
@@ -32,6 +32,8 @@ class MainService : Service() {
         it.action = MainActivity.MAIN_ACTION_RECEIVER_COUNT_ACTION
         it.putExtra(MainActivity.MAIN_ACTION_RECEIVER_COUNT_DATA, newValue)
       })
+
+      mMainNotification?.makeNotification(newValue)
     }
   }
 
@@ -39,13 +41,14 @@ class MainService : Service() {
 
   fun getCurrentCount() = mCount.getCurrentValue()
 
-  fun setupMainNotification(mainNotification: MainNotification) {
-    mMainNotification = mainNotification
-  }
-
-
   override fun onBind(intent: Intent?): IBinder? {
     return mBinder
+  }
+
+  override fun onCreate() {
+    super.onCreate()
+
+    mMainNotification = MainNotification(applicationContext, this@MainService)
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -58,7 +61,7 @@ class MainService : Service() {
       }
     }
 
-    return START_REDELIVER_INTENT
+    return START_NOT_STICKY
   }
 
   private fun startScheduleCountData() {
@@ -69,6 +72,8 @@ class MainService : Service() {
     if (mScheduledFuture?.isDone == false) return
 
     mScheduledFuture = mScheduledExecutorService!!.scheduleWithFixedDelay({
+      Log.d("Binh", "Count: ${mCount.getCurrentValue()}")
+
       mCount.increaseCount(1)
     }, COUNT_DATA_DELAY, COUNT_DATA_DELAY, TimeUnit.MILLISECONDS)
   }

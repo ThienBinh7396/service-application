@@ -32,6 +32,11 @@ class HomeFragment : BaseFragment<HomeFragmentViewModel>() {
           it.action = MainActivity.MAIN_ACTION_START_COUNT_ACTION
         })
       }
+      btnPauseCount.setOnClickListener {
+        context?.startService(Intent(context, MainService::class.java).also {
+          it.action = MainActivity.MAIN_ACTION_CANCEL_COUNT_ACTION
+        })
+      }
 
       btnHideNavigation.setOnClickListener {
         btnHideNavigation.apply {
@@ -70,6 +75,8 @@ class HomeFragment : BaseFragment<HomeFragmentViewModel>() {
         viewModel.updateCount(newValue)
       }
     })
+
+    viewModel.updateCount(mainActivity?.mMainService?.getCurrentCount() ?: 0)
   }
 
   override fun onDestroy() {

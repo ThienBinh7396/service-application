@@ -47,7 +47,6 @@ class MainActivity : BaseActivity() {
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
       if (service is MainService.MainServiceBinder) {
         mMainService = service.getService()
-        mMainService?.setupMainNotification(mainNotification)
         mBound = true
       }
     }
@@ -120,7 +119,7 @@ class MainActivity : BaseActivity() {
   override fun onStart() {
     super.onStart()
 
-    bindService(Intent(this, MainService::class.java), mServiceConnection, BIND_AUTO_CREATE)
+    bindService(Intent(this, MainService::class.java), mServiceConnection, BIND_ADJUST_WITH_ACTIVITY)
   }
 
   override fun onStop() {

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.thienbinh.serviceapplication">
 
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
   <application
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
@@ -12,7 +16,7 @@
     <activity
       android:name=".MainActivity"
       android:configChanges="locale|screenSize|smallestScreenSize|screenLayout"
-      android:launchMode="singleTask"
+      android:launchMode="singleTop"
       android:screenOrientation="portrait"
       android:windowSoftInputMode="adjustNothing">
       <intent-filter>
