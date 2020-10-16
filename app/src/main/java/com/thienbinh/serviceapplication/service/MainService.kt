@@ -37,6 +37,8 @@ class MainService : Service() {
 
   private var mCount = CountVariableModel(mEventListener)
 
+  fun getCurrentCount() = mCount.getCurrentValue()
+
   fun setupMainNotification(mainNotification: MainNotification) {
     mMainNotification = mainNotification
   }
@@ -63,6 +65,8 @@ class MainService : Service() {
     if (mScheduledExecutorService == null) {
       mScheduledExecutorService = ScheduledThreadPoolExecutor(1)
     }
+
+    if (mScheduledFuture?.isDone == false) return
 
     mScheduledFuture = mScheduledExecutorService!!.scheduleWithFixedDelay({
       mCount.increaseCount(1)

@@ -33,13 +33,37 @@ class HomeFragment : BaseFragment<HomeFragmentViewModel>() {
         })
       }
 
+      btnHideNavigation.setOnClickListener {
+        btnHideNavigation.apply {
+          text = if (mainActivity?.checkIsShowBottomNavigation() == true) "Show Navigation" else "Hide Navigation"
+        }
+        mainActivity?.apply {
+          toggleBottomNavigation(!checkIsShowBottomNavigation())
+        }
+      }
+
       lifecycleOwner = this@HomeFragment
     }
+
+    Log.d("Binh", "Home fragment createview")
     return binding.root
+  }
+
+  override fun onPause() {
+    super.onPause()
+    Log.d("Binh", "Home fragment pasue")
+  }
+
+  override fun onResume() {
+    super.onResume()
+
+    viewModel.updateCount(mainActivity?.mMainService?.getCurrentCount() ?: 0)
   }
 
   override fun onStart() {
     super.onStart()
+
+    Log.d("Binh", "Home fragment start")
 
     mainActivity?.registerCountChangeEventListener(object : IOnCountChangeEventListener {
       override fun onCountChangeEventListener(newValue: Int) {
