@@ -72,8 +72,6 @@ class MainService : Service() {
     if (mScheduledFuture?.isDone == false) return
 
     mScheduledFuture = mScheduledExecutorService!!.scheduleWithFixedDelay({
-      Log.d("Binh", "Count: ${mCount.getCurrentValue()}")
-
       mCount.increaseCount(1)
     }, COUNT_DATA_DELAY, COUNT_DATA_DELAY, TimeUnit.MILLISECONDS)
   }

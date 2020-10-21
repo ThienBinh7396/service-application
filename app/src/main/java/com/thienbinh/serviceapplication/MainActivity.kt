@@ -48,6 +48,8 @@ class MainActivity : BaseActivity() {
       if (service is MainService.MainServiceBinder) {
         mMainService = service.getService()
         mBound = true
+
+        execStackCountChangeEventListener(mMainService?.getCurrentCount() ?: 0)
       }
     }
 
@@ -65,17 +67,20 @@ class MainActivity : BaseActivity() {
     setupBroadcastReceiver()
   }
 
+  private fun execStackCountChangeEventListener(data: Int){
+    val iterator = stackCountChangeEventListener.iterator()
+    while (iterator.hasNext()){
+      iterator.next().onCountChangeEventListener(data)
+    }
+  }
+
   private fun setupBroadcastReceiver() {
     receiverCountData = object : BroadcastReceiver() {
       override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
           MAIN_ACTION_RECEIVER_COUNT_ACTION -> {
             val data = intent.getIntExtra(MAIN_ACTION_RECEIVER_COUNT_DATA, 0)
-
-            val iterator = stackCountChangeEventListener.iterator()
-            while (iterator.hasNext()){
-              iterator.next().onCountChangeEventListener(data)
-            }
+            execStackCountChangeEventListener(data)
           }
         }
       }
@@ -118,6 +123,8 @@ class MainActivity : BaseActivity() {
 
   override fun onStart() {
     super.onStart()
+
+    Log.d("Binh", "MainActivity start")
 
     bindService(Intent(this, MainService::class.java), mServiceConnection, BIND_ADJUST_WITH_ACTIVITY)
   }

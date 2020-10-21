@@ -1,7 +1,9 @@
 package com.thienbinh.serviceapplication.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -68,15 +70,11 @@ class HomeFragment : BaseFragment<HomeFragmentViewModel>() {
   override fun onStart() {
     super.onStart()
 
-    Log.d("Binh", "Home fragment start")
-
     mainActivity?.registerCountChangeEventListener(object : IOnCountChangeEventListener {
       override fun onCountChangeEventListener(newValue: Int) {
         viewModel.updateCount(newValue)
       }
     })
-
-    viewModel.updateCount(mainActivity?.mMainService?.getCurrentCount() ?: 0)
   }
 
   override fun onDestroy() {

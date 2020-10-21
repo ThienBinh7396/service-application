@@ -21,9 +21,11 @@ class MainNotification(context: Context, var service: Service? = null) {
   private var isChannelCreated = false
   private var pendingIntentToActivity: PendingIntent
   private var mNotificationManager: NotificationManager? = null
+  private var mNotificationBuilder: NotificationCompat.Builder
 
   init {
     mContext = context
+    mNotificationBuilder = NotificationCompat.Builder(context, MAIN_NOTIFICATION_CHANNEL_ID)
     createNotificationChannel()
 
     pendingIntentToActivity = PendingIntent.getActivity(mContext, 0, Intent(mContext, MainActivity::class.java).apply {
@@ -52,13 +54,14 @@ class MainNotification(context: Context, var service: Service? = null) {
   fun makeNotification(count: Int) {
     mContext?.let {
 
-      val notification = NotificationCompat.Builder(it, MAIN_NOTIFICATION_CHANNEL_ID)
+      val notification = mNotificationBuilder
         .setSmallIcon(R.drawable.logo_png)
         .setContentTitle(it.getString(R.string.app_name))
         .setVisibility(NotificationCompat.VISIBILITY_SECRET)
         .setContentText("Current: $count")
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setOngoing(true)
+        .setOnlyAlertOnce(true)
         .setContentIntent(pendingIntentToActivity)
         .build()
         .apply {
@@ -70,8 +73,6 @@ class MainNotification(context: Context, var service: Service? = null) {
       }else{
         mNotificationManager?.notify(MAIN_NOTIFICATION_ID, notification)
       }
-
-      Log.d("Binh", "Notification: $mNotificationManager")
     }
   }
 }
