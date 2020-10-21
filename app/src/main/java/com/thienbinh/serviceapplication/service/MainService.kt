@@ -26,6 +26,8 @@ class MainService : Service() {
   private var mScheduledExecutorService: ScheduledExecutorService? = null
   private var mScheduledFuture: ScheduledFuture<*>? = null
 
+  private var first = false
+
   private var mEventListener = object : IOnServiceChangeListener {
     override fun onCountChangeListener(newValue: Int) {
       sendBroadcast(Intent().also {
@@ -33,7 +35,9 @@ class MainService : Service() {
         it.putExtra(MainActivity.MAIN_ACTION_RECEIVER_COUNT_DATA, newValue)
       })
 
-      mMainNotification?.makeNotification(newValue)
+        mMainNotification?.makeNotification(newValue)
+
+      first = true
     }
   }
 

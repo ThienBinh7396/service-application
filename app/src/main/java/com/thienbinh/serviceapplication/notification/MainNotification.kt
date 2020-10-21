@@ -23,6 +23,8 @@ class MainNotification(context: Context, var service: Service? = null) {
   private var mNotificationManager: NotificationManager? = null
   private var mNotificationBuilder: NotificationCompat.Builder
 
+  private var first = false
+
   init {
     mContext = context
     mNotificationBuilder = NotificationCompat.Builder(context, MAIN_NOTIFICATION_CHANNEL_ID)
@@ -42,8 +44,11 @@ class MainNotification(context: Context, var service: Service? = null) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mContext != null && !isChannelCreated) {
       val channel = NotificationChannel(
         MAIN_NOTIFICATION_CHANNEL_ID, MAIN_NOTIFICATION_CHANNEL_NAME,
-        NotificationManager.IMPORTANCE_HIGH
+        NotificationManager.IMPORTANCE_DEFAULT
       )
+
+      channel.setSound(null, null)
+      channel.enableVibration(false)
 
       mNotificationManager?.createNotificationChannel(channel)
 
@@ -57,7 +62,8 @@ class MainNotification(context: Context, var service: Service? = null) {
       val notification = mNotificationBuilder
         .setSmallIcon(R.drawable.logo_png)
         .setContentTitle(it.getString(R.string.app_name))
-        .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+        .setCategory(NotificationCompat.CATEGORY_SERVICE)
         .setContentText("Current: $count")
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setOngoing(true)
@@ -68,11 +74,13 @@ class MainNotification(context: Context, var service: Service? = null) {
           flags = Notification.FLAG_ONGOING_EVENT or Notification.FLAG_NO_CLEAR
         }
 
-      if (service != null){
+      if (service != null && !first){
         service?.startForeground(MAIN_NOTIFICATION_ID, notification)
       }else{
         mNotificationManager?.notify(MAIN_NOTIFICATION_ID, notification)
       }
+
+      first = true
     }
   }
 }

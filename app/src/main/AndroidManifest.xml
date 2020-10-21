@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   package="com.thienbinh.serviceapplication">
 
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -18,7 +19,9 @@
       android:configChanges="locale|screenSize|smallestScreenSize|screenLayout"
       android:launchMode="singleTop"
       android:screenOrientation="portrait"
-      android:windowSoftInputMode="adjustNothing">
+      android:usesCleartextTraffic="true"
+      android:windowSoftInputMode="adjustNothing"
+      tools:targetApi="m">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
