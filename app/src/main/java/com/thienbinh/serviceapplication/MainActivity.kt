@@ -8,6 +8,7 @@ import android.os.IBinder
 import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -22,6 +23,7 @@ class MainActivity : BaseActivity() {
   companion object {
     const val MAIN_ACTION_START_COUNT_ACTION = "MAIN_ACTION_START_COUNT_ACTION"
     const val MAIN_ACTION_CANCEL_COUNT_ACTION = "MAIN_ACTION_CANCEL_COUNT_ACTION"
+    const val MAIN_ACTION_STOP_COUNT_ACTION = "MAIN_ACTION_STOP_COUNT_ACTION"
     const val MAIN_ACTION_RECEIVER_COUNT_ACTION = "MAIN_ACTION_RECEIVER_COUNT_ACTION"
     const val MAIN_ACTION_RECEIVER_COUNT_DATA = "MAIN_ACTION_RECEIVER_COUNT_DATA"
   }
@@ -30,18 +32,13 @@ class MainActivity : BaseActivity() {
   private var mBound: Boolean = false
   private lateinit var receiverCountData: BroadcastReceiver
 
-  private var stackCountChangeEventListener = Stack<IOnCountChangeEventListener>()
+  var countValue = MutableLiveData<Int>().apply {
+    value = 0
+  }
+
   private lateinit var binding: ActivityMainBinding
 
   lateinit var navigationManager: BaseNavigationManager
-
-  fun registerCountChangeEventListener(eventListener: IOnCountChangeEventListener){
-    stackCountChangeEventListener.push(eventListener)
-  }
-
-  fun unregisterCountChangeEventListener(eventListener: IOnCountChangeEventListener){
-    stackCountChangeEventListener.push(eventListener)
-  }
 
   private var mServiceConnection = object : ServiceConnection {
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -49,7 +46,7 @@ class MainActivity : BaseActivity() {
         mMainService = service.getService()
         mBound = true
 
-        execStackCountChangeEventListener(mMainService?.getCurrentCount() ?: 0)
+        countValue.value = service.getService().getCurrentCount()
       }
     }
 
@@ -65,13 +62,7 @@ class MainActivity : BaseActivity() {
 
     setupNavigation()
     setupBroadcastReceiver()
-  }
 
-  private fun execStackCountChangeEventListener(data: Int){
-    val iterator = stackCountChangeEventListener.iterator()
-    while (iterator.hasNext()){
-      iterator.next().onCountChangeEventListener(data)
-    }
   }
 
   private fun setupBroadcastReceiver() {
@@ -80,7 +71,8 @@ class MainActivity : BaseActivity() {
         when (intent?.action) {
           MAIN_ACTION_RECEIVER_COUNT_ACTION -> {
             val data = intent.getIntExtra(MAIN_ACTION_RECEIVER_COUNT_DATA, 0)
-            execStackCountChangeEventListener(data)
+
+            countValue.postValue(data)
           }
         }
       }
@@ -141,6 +133,3 @@ class MainActivity : BaseActivity() {
   }
 }
 
-interface IOnCountChangeEventListener{
-  fun onCountChangeEventListener(newValue: Int)
-}

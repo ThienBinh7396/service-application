@@ -1,23 +1,17 @@
 package com.thienbinh.serviceapplication.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import com.thienbinh.serviceapplication.IOnCountChangeEventListener
 import com.thienbinh.serviceapplication.MainActivity
-import com.thienbinh.serviceapplication.R
+import com.thienbinh.serviceapplication.TestActivity
 import com.thienbinh.serviceapplication.base.BaseFragment
 import com.thienbinh.serviceapplication.databinding.FragmentHomeBinding
 import com.thienbinh.serviceapplication.service.MainService
 import com.thienbinh.serviceapplication.viewModel.HomeFragmentViewModel
-import java.security.Provider
 
 class HomeFragment : BaseFragment<HomeFragmentViewModel>() {
   lateinit var binding: FragmentHomeBinding
@@ -39,6 +33,11 @@ class HomeFragment : BaseFragment<HomeFragmentViewModel>() {
           it.action = MainActivity.MAIN_ACTION_CANCEL_COUNT_ACTION
         })
       }
+      btnStopCount.setOnClickListener {
+        context?.startService(Intent(context, MainService::class.java).also {
+          it.action = MainActivity.MAIN_ACTION_STOP_COUNT_ACTION
+        })
+      }
 
       btnHideNavigation.setOnClickListener {
         btnHideNavigation.apply {
@@ -46,6 +45,12 @@ class HomeFragment : BaseFragment<HomeFragmentViewModel>() {
         }
         mainActivity?.apply {
           toggleBottomNavigation(!checkIsShowBottomNavigation())
+        }
+      }
+
+      btnGotoTest.setOnClickListener {
+        Intent(context, TestActivity::class.java).also{
+          startActivity(it)
         }
       }
 
@@ -61,19 +66,11 @@ class HomeFragment : BaseFragment<HomeFragmentViewModel>() {
     Log.d("Binh", "Home fragment pasue")
   }
 
-  override fun onResume() {
-    super.onResume()
-
-    viewModel.updateCount(mainActivity?.mMainService?.getCurrentCount() ?: 0)
-  }
-
   override fun onStart() {
     super.onStart()
 
-    mainActivity?.registerCountChangeEventListener(object : IOnCountChangeEventListener {
-      override fun onCountChangeEventListener(newValue: Int) {
-        viewModel.updateCount(newValue)
-      }
+    mainActivity?.countValue?.observe(this,  {
+        viewModel.updateCount(it)
     })
   }
 

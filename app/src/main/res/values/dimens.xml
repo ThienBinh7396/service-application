@@ -62,4 +62,5 @@
   <dimen name="dp142">142dp</dimen>
   <dimen name="dp175">175.3dp</dimen>
   <dimen name="dp180">180dp</dimen>
+  <dimen name="fab_margin">16dp</dimen>
 </resources>

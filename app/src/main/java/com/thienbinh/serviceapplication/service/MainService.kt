@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit
 class MainService : Service() {
   companion object {
     const val COUNT_DATA_DELAY = 1000L
+    var isStartForegroundService = false
   }
 
   private val mBinder = MainServiceBinder()
@@ -63,9 +64,12 @@ class MainService : Service() {
       MainActivity.MAIN_ACTION_CANCEL_COUNT_ACTION -> {
         pauseScheduleCountData()
       }
+      MainActivity.MAIN_ACTION_STOP_COUNT_ACTION -> {
+        stopScheduleCountData()
+      }
     }
 
-    return START_NOT_STICKY
+    return START_REDELIVER_INTENT
   }
 
   private fun startScheduleCountData() {
@@ -82,6 +86,12 @@ class MainService : Service() {
 
   private fun pauseScheduleCountData() {
     mScheduledFuture?.apply { cancel(true) }
+  }
+
+  private fun stopScheduleCountData(){
+    this@MainService.stopForeground(true)
+    isStartForegroundService = false
+    pauseScheduleCountData()
   }
 
   inner class MainServiceBinder : Binder() {
